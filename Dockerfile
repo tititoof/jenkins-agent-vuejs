@@ -34,7 +34,7 @@ RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends curl git openssh-server openjdk-11-jre-headless sudo nodejs yarn
+    apt-get install -y --no-install-recommends curl git openssh-server openjdk-11-jre-headless sudo nodejs yarn google-chrome-stable
 
 RUN mkdir /var/run/sshd
 RUN echo "jenkins:jenkins" | chpasswd
