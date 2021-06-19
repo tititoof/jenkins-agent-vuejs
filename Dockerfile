@@ -32,12 +32,13 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
 RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list
-RUN apt -y install curl software-properties-common
-RUN curl -sL https://deb.nodesource.com/setup_14.x | sudo bash - 
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends curl git nodejs openssh-server openjdk-11-jre-headless sudo yarn google-chrome-stable
+    apt-get install -y --no-install-recommends curl git  openssh-server openjdk-11-jre-headless sudo yarn google-chrome-stable software-properties-common
+
+RUN curl -sL https://deb.nodesource.com/setup_14.x | sudo bash - 
+RUN apt-get install -y --no-install-recommends nodejs
 
 RUN node --version
 
