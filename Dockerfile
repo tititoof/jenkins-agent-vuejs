@@ -27,8 +27,7 @@ ARG version
 LABEL Description="This is a base image, which allows connecting Jenkins agents via JNLP protocols" Vendor="Jenkins project" Version="$version"
 
 USER root
-RUN apt -y install curl dirmngr apt-transport-https lsb-release ca-certificates
-RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
@@ -37,6 +36,9 @@ RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y --no-install-recommends curl git openssh-server openjdk-11-jre-headless sudo nodejs yarn google-chrome-stable
+
+RUN apt -y install curl software-properties-common
+RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 
 RUN mkdir /var/run/sshd
 RUN echo "jenkins:jenkins" | chpasswd
