@@ -35,10 +35,12 @@ RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends curl git openssh-server openjdk-11-jre-headless sudo nodejs yarn google-chrome-stable
+    apt-get install -y --no-install-recommends curl git openssh-server openjdk-11-jre-headless sudo yarn google-chrome-stable
 
 RUN apt -y install curl software-properties-common
 RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+
+RUN apt-get install nodejs
 
 RUN mkdir /var/run/sshd
 RUN echo "jenkins:jenkins" | chpasswd
