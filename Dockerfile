@@ -35,7 +35,7 @@ RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends curl git  openssh-server openjdk-11-jre-headless sudo yarn google-chrome-stable software-properties-common
+    apt-get install -y --no-install-recommends curl git  openssh-server openjdk-11-jre-headless sudo yarn google-chrome-stable software-properties-common libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
 
 RUN curl -sL https://deb.nodesource.com/setup_14.x | sudo bash - 
 RUN apt-get install -y --no-install-recommends nodejs
