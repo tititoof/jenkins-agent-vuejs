@@ -42,7 +42,7 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y yarn google-chrome-stable
 
-RUN curl -sL https://deb.nodesource.com/setup_14.x | sudo bash - 
+RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo bash - 
 RUN apt-get install -y --no-install-recommends nodejs
 
 RUN node --version
