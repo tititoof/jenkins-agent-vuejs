@@ -47,6 +47,8 @@ RUN apt-get install -y --no-install-recommends nodejs
 
 RUN node --version
 
+RUN yarn global add pm2
+
 RUN mkdir /var/run/sshd
 RUN echo "jenkins:jenkins" | chpasswd
 RUN echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
