@@ -20,7 +20,7 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #  THE SOFTWARE.
 
-ARG version=4.13-2-jdk11
+ARG version=latest-jdk25
 FROM jenkins/agent:$version
 
 ARG version
@@ -30,26 +30,41 @@ USER root
 
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends curl git openssh-server openjdk-11-jre-headless sudo wget gnupg gnupg2 software-properties-common libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+    apt-get install -y --no-install-recommends curl git openssh-server \
+    openjdk-21-jre-headless sudo wget gnupg gnupg2 libgtk2.0-0 libgtk-3-0 \
+    libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb ca-certificates curl lsb-release && \
+    install -m 0755 -d /etc/apt/keyrings && \
+    curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.gpg && \
+    chmod a+r /etc/apt/keyrings/docker.gpg && \
+    echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+    $(lsb_release -cs) stable" \
+    > /etc/apt/sources.list.d/docker.list && \
+    apt-get update && \
+    apt-get install -y docker-ce-cli && \
+    apt-get clean
 
-RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
-RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list
+# software-properties-common libgconf-2-4
+# RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
+# RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | tee /etc/apt/sources.list.d/google-chrome.list
 
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+# RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+# RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y yarn google-chrome-stable
+# RUN apt-get update && \
+#     apt-get upgrade -y && \
+#     apt-get install -y yarn google-chrome-stable
 
-RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo bash - 
+RUN curl -sL https://deb.nodesource.com/setup_24.x | sudo bash - 
 RUN apt-get install -y --no-install-recommends nodejs
 
 RUN node --version
 
-RUN yarn global add pm2
+RUN npm install -g pnpm
 
-RUN mkdir /var/run/sshd
+# RUN yarn global add pm2
+
+# RUN mkdir /var/run/sshd
 RUN echo "jenkins:jenkins" | chpasswd
 RUN echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
