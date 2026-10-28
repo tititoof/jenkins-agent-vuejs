@@ -31,7 +31,7 @@ USER root
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y --no-install-recommends curl git openssh-server \
-    openjdk-21-jre-headless sudo wget gnupg gnupg2 libgtk2.0-0 libgtk-3-0 \
+    openjdk-21-jre-headless wget gnupg gnupg2 libgtk2.0-0 libgtk-3-0 \
     libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb ca-certificates curl lsb-release && \
     install -m 0755 -d /etc/apt/keyrings && \
     curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.gpg && \
@@ -55,7 +55,8 @@ RUN apt-get update && \
 #     apt-get upgrade -y && \
 #     apt-get install -y yarn google-chrome-stable
 
-RUN curl -sL https://deb.nodesource.com/setup_24.x | sudo bash - 
+# Encore root à cette étape : pas besoin de sudo
+RUN curl -sL https://deb.nodesource.com/setup_24.x | bash -
 RUN apt-get install -y --no-install-recommends nodejs
 
 RUN node --version
@@ -65,8 +66,8 @@ RUN npm install -g pnpm
 # RUN yarn global add pm2
 
 # RUN mkdir /var/run/sshd
-RUN echo "jenkins:jenkins" | chpasswd
-RUN echo "jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+# Pas de mot de passe ni de sudo pour l'utilisateur jenkins : l'agent exécute
+# du code arbitraire (les pipelines), il ne doit pas pouvoir devenir root.
 
 ARG user=jenkins
 
