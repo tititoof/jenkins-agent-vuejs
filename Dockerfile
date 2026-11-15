@@ -56,7 +56,7 @@ RUN apt-get update && \
 #     apt-get install -y yarn google-chrome-stable
 
 # Encore root à cette étape : pas besoin de sudo
-RUN curl -sL https://deb.nodesource.com/setup_24.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_26.x | bash -
 RUN apt-get install -y --no-install-recommends nodejs
 
 RUN node --version
