@@ -32,7 +32,8 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y --no-install-recommends curl git openssh-server \
     openjdk-21-jre-headless wget gnupg gnupg2 libgtk2.0-0 libgtk-3-0 \
-    libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb ca-certificates curl lsb-release && \
+    libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb ca-certificates curl lsb-release \
+    build-essential python3 && \
     install -m 0755 -d /etc/apt/keyrings && \
     curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.gpg && \
     chmod a+r /etc/apt/keyrings/docker.gpg && \
